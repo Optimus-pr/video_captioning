@@ -127,8 +127,8 @@ if __name__ == "__main__":
         if test_id in result:  # Check if the test_id is present in the result dictionary
             score_per_video = []
             for caption in item['caption']:
-                caption = caption.rstrip('.')
-                score_per_video.append(BLEU(result[test_id], caption))
+                caption = caption.strip().strip('"')  # Strip double quotes
+                score_per_video.append(BLEU(result.get(item['id'], ''), caption))
             bleu.append(sum(score_per_video) / len(score_per_video))
         
 
@@ -141,8 +141,8 @@ if __name__ == "__main__":
         test_id = item['id']
         if test_id in result:  # Check if the test_id is present in the result dictionary
             score_per_video = []
-            captions = [x.rstrip('.') for x in item['caption']]
-            score_per_video.append(BLEU(result[test_id], captions, True))
+            captions = [x.strip().strip('"') for x in item['caption']]
+            score_per_video.append(BLEU(result.get(item['id'], ''), captions, True))
             bleu.append(score_per_video[0])
         
 
