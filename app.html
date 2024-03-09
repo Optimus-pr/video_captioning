@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+</head>
+<body>
+
+    <h1>Video Player</h1>
+
+    <!-- Input for selecting a video file -->
+    <input type="file" accept="video/*" id="videoInput" onchange="loadVideo()">
+
+    <!-- Video player element -->
+    <video controls id="videoPlayer" style="width: 100%;">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        // Function to load and play the selected video
+        function loadVideo() {
+            var videoInput = document.getElementById('videoInput');
+            var videoPlayer = document.getElementById('videoPlayer');
+
+            // Check if a file is selected
+            if (videoInput.files.length > 0) {
+                var selectedVideo = videoInput.files[0];
+
+                // Set the video source and play
+                videoPlayer.src = URL.createObjectURL(selectedVideo);
+                videoPlayer.play();
+            }
+        }
+    </script>
+
+</body>
+</html>
