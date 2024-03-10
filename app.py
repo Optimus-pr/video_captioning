@@ -23,6 +23,7 @@ def upload_file():
 
     if file:
         # Save the uploaded video to a specific folder (e.g., 'uploads')
+        print("hi",file.filename)
         video_path = os.path.join('static', 'uploads', file.filename)
         file.save(video_path)
 

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Captioning</title>
+</head>
+<body>
+
+    <h1>Video Captioning</h1>
+
+    <input type="file" id="fileInput" accept="video/*">
+    <button onclick="uploadVideo()">Upload and Caption</button>
+
+    <h2>Caption:</h2>
+    <p id="captionResult"></p>
+
+    <video id="videoPlayer" controls width="400"></video>
+
+    <script>
+        async function uploadVideo() {
+            const fileInput = document.getElementById('fileInput');
+            const captionResult = document.getElementById('captionResult');
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            const file = fileInput.files[0];
+            console.log(file)
+
+            if (!file) {
+                alert('Please select a video file.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                // Send the video file to the server for captioning
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error uploading video.');
+                }
+
+                const result = await response.json();
+                console.log(file.name);
+                // Display the caption
+                captionResult.textContent = result.caption;
+
+                // Display the video
+
+                const mp4FileName = file.name.replace('.avi', '.mp4');
+                videoPlayer.src = `../${mp4FileName}`;
+                videoPlayer.src = `/Users/chinmaygs/7th sem/fyp/Video-Captioning-main/${mp4FileName}`;
+
+
+                videoPlayer.load();
+                videoPlayer.play();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while uploading the video.');
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.10/umd/ffmpeg.min.js"></script>
+
+</body>
+</html>
+
+
+  <!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Captioning</title>
+    
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.10/umd/ffmpeg.min.js"></script>
+</head>
+<body>
+
+    <h1>Video Captioning</h1>
+
+    <input type="file" id="fileInput" accept="video/*">
+    <button onclick="uploadVideo()">Upload and Caption</button>
+
+    <h2>Caption:</h2>
+    <p id="captionResult"></p>
+
+    <video id="videoPlayer" controls width="400"></video>
+
+    <script>
+        async function uploadVideo() {
+            const fileInput = document.getElementById('fileInput');
+            const captionResult = document.getElementById('captionResult');
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select a video file.');
+                return;
+            }
+
+            // Convert .avi to .mp4 using ffmpeg.js
+            const convertedBlob = await convertToMp4(file);
+
+            if (!convertedBlob) {
+                alert('Error converting video.');
+                return;
+            }
+
+            // Display the caption
+            captionResult.textContent = 'Your caption here';
+
+            // Display the converted video
+            const objectURL = URL.createObjectURL(convertedBlob);
+            videoPlayer.src = objectURL;
+            videoPlayer.load();
+            videoPlayer.play();
+        }
+
+        async function convertToMp4(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                    try {
+                        // Load ffmpeg.js
+                        const { createFFmpeg, fetchFile } = FFmpeg;
+                        const ffmpeg = createFFmpeg({ log: true });
+
+                        await ffmpeg.load();
+
+                        // Write the input file to the virtual file system
+                        ffmpeg.FS('writeFile', 'input.avi', new Uint8Array(event.target.result));
+
+                        // Run the conversion
+                        await ffmpeg.run('-i', 'input.avi', '-c:v', 'libx264', '-c:a', 'aac', '-strict', 'experimental', 'output.mp4');
+
+                        // Read the output file from the virtual file system
+                        const data = ffmpeg.FS('readFile', 'output.mp4');
+
+                        // Create a Blob from the output data
+                        const convertedBlob = new Blob([data], { type: 'video/mp4' });
+
+                        resolve(convertedBlob);
+                    } catch (error) {
+                        console.error('Error converting video:', error);
+                        reject(error);
+                    }
+                };
+
+                reader.readAsArrayBuffer(file);
+            });
+        }
+    </script>
+
+
+</body>
+</html>
+  -->

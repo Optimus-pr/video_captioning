@@ -1,8 +1,12 @@
 .idea/
 images/
+data/testing_data/feat
+data/testing_data/video
 
-data/
+data/training_data/feat
+data/training_data/video
+
 node_modules/
 __pycache__
-static
-templates
+
+77iDIp40m9E_126_131.mp4

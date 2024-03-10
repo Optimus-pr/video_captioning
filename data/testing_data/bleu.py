@@ -121,19 +121,19 @@ if __name__ == "__main__":
                 print(f"Invalid line format: {line}")
 
     # Count BLEU score
-    bleu = []
-    for item in test:
-        test_id = item['id']
-        if test_id in result:  # Check if the test_id is present in the result dictionary
-            score_per_video = []
-            for caption in item['caption']:
-                caption = caption.strip().strip('"')  # Strip double quotes
-                score_per_video.append(BLEU(result.get(item['id'], ''), caption))
-            bleu.append(sum(score_per_video) / len(score_per_video))
+    # bleu = []
+    # for item in test:
+    #     test_id = item['id']
+    #     if test_id in result:  # Check if the test_id is present in the result dictionary
+    #         score_per_video = []
+    #         for caption in item['caption']:
+    #             caption = caption.strip().strip('"')  # Strip double quotes
+    #             score_per_video.append(BLEU(result.get(item['id'], ''), caption))
+    #         bleu.append(sum(score_per_video) / len(score_per_video))
         
 
-    average = sum(bleu) / len(bleu)
-    print("Originally, average BLEU score is " + str(average))
+    # average = sum(bleu) / len(bleu)
+    # print("Originally, average BLEU score is " + str(average))
 
     # Count BLEU score using the method described in the paper
     bleu = []
@@ -147,4 +147,4 @@ if __name__ == "__main__":
         
 
     average = sum(bleu) / len(bleu)
-    print("By another method, average BLEU score is " + str(average))
+    print("Average BLEU score is " + str(average))

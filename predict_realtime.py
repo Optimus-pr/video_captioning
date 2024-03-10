@@ -258,7 +258,7 @@ import extract_features
 
 import config
 import model
-
+from os import system
 
 class VideoDescriptionRealTime(object):
     """
@@ -486,15 +486,9 @@ if __name__ == "__main__":
             sentence = sentence + ' ' + text
             print('\n.........................\n')
             print(sentence)
+        system(f"say {sentence}")
         print('\n.........................\n')
         print('It took {:.2f} seconds to generate caption'.format(end-start))
         video_to_text.main(file, sentence)
-        play_video = input('Should I play the video? ')
-        if play_video.lower() == 'y':
-            continue
-        elif play_video.lower() == 'n':
-            break
-        else:
-            print('Could not understand type (y) for yes and (n) for no')
-            continue
-
+        # Continue playing the video without asking for user input
+        time.sleep(2)
