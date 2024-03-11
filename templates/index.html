@@ -15,14 +15,15 @@
     <h2>Caption:</h2>
     <p id="captionResult"></p>
 
-    <video id="videoPlayer" controls width="400"></video>
+    <iframe id="videoFrame" width="640" height="480" src="" frameborder="0" allowfullscreen></iframe>
+    <button onclick="replay()">replay</button>
 
     <script>
         async function uploadVideo() {
             const fileInput = document.getElementById('fileInput');
+            const frame = document.getElementById('videoFrame');
             const captionResult = document.getElementById('captionResult');
-            const videoPlayer = document.getElementById('videoPlayer');
-
+            
             const file = fileInput.files[0];
             console.log(file)
 
@@ -51,21 +52,42 @@
                 captionResult.textContent = result.caption;
 
                 // Display the video
+                frame.src = '/video';
+                
 
-                const mp4FileName = file.name.replace('.avi', '.mp4');
-                videoPlayer.src = `../${mp4FileName}`;
-                videoPlayer.src = `/Users/chinmaygs/7th sem/fyp/Video-Captioning-main/${mp4FileName}`;
+                //playing the audio
 
-
-                videoPlayer.load();
-                videoPlayer.play();
+                replay();
+      
+      
+               
             } catch (error) {
                 console.error('Error:', error);
                 alert('An error occurred while uploading the video.');
             }
         }
+
+        function replay(){
+            // Check if the browser supports the SpeechSynthesis API
+      if ('speechSynthesis' in window) {
+        var synthesis = window.speechSynthesis;
+        
+        // Create a new SpeechSynthesisUtterance
+        var utterance = new SpeechSynthesisUtterance(captionResult.textContent);
+        
+        // Optionally, you can set additional properties such as the voice, rate, pitch, etc.
+        // utterance.voice = ...;
+        // utterance.rate = ...;
+        // utterance.pitch = ...;
+
+        // Finally, speak the text
+        synthesis.speak(utterance);
+
+}
+        }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ffmpeg/0.12.10/umd/ffmpeg.min.js"></script>
+
 
 </body>
 </html>

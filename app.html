@@ -39,7 +39,7 @@
 </html> -->
 
 
- <!DOCTYPE html>
+ <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -79,6 +79,47 @@
             }
         }
     </script>
+
+</body>
+</html>
+ -->
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text-to-Speech Demo</title>
+</head>
+<body>
+
+  <h1>Text-to-Speech Demo</h1>
+  <textarea id="text-to-read" rows="4" cols="50">Enter your text here...</textarea>
+  <button onclick="readText()">Read Text</button>
+
+  <script>
+    function readText() {
+      var textToRead = document.getElementById('text-to-read').value;
+      
+      // Check if the browser supports the SpeechSynthesis API
+      if ('speechSynthesis' in window) {
+        var synthesis = window.speechSynthesis;
+        
+        // Create a new SpeechSynthesisUtterance
+        var utterance = new SpeechSynthesisUtterance(textToRead);
+        
+        // Optionally, you can set additional properties such as the voice, rate, pitch, etc.
+        // utterance.voice = ...;
+        // utterance.rate = ...;
+        // utterance.pitch = ...;
+
+        // Finally, speak the text
+        synthesis.speak(utterance);
+      } else {
+        alert('Text-to-speech is not supported in your browser. Please use a modern browser.');
+      }
+    }
+  </script>
 
 </body>
 </html>
